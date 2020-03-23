@@ -12,17 +12,20 @@ namespace DOOMSaveManager
         }
 
         private void TransferForm_Load(object sender, EventArgs e) {
-            srcUidComboBox.Items.AddRange(DoomEternal.GetUserIDs());
-            if (srcUidComboBox.Items.Count == 0) {
+            srcComboBox.Items.AddRange(DoomEternal.GetUserIDs());
+            if (srcComboBox.Items.Count == 0) {
                 DialogResult = DialogResult.Abort;
-            } else if(srcUidComboBox.Items.Count > 0) {
-                srcUidComboBox.SelectedIndex = 0;
+            } else if(srcComboBox.Items.Count > 0) {
+                srcComboBox.SelectedIndex = 0;
+            }
+            if (Directory.Exists(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"))) {
+                srcComboBox.Items.Add("savegame.unencrypted");
             }
         }
 
         private void transferOkBtn_Click(object sender, EventArgs e) {
             bool res = true;
-            if (!Utilities.CheckUUID(srcUidComboBox.Text)) {
+            if (srcComboBox.Text != "savegame.unencrypted" && !Utilities.CheckUUID(srcComboBox.Text)) {
                 res = false;
                 MessageBox.Show("Invalid source UUID!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -30,13 +33,10 @@ namespace DOOMSaveManager
                 res = false;
                 MessageBox.Show("Invalid destination UUID!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if (!Directory.Exists(Path.Combine(DoomEternal.SavePath, srcUidComboBox.Text))) {
+            if (!Directory.Exists(Path.Combine(DoomEternal.SavePath, srcComboBox.Text))) {
                 res = false;
-                MessageBox.Show("Source UUID directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //if (!Directory.Exists(Path.Combine(DoomEternal.SavePath, dstUidBox.Text))) {
-            //    Directory.CreateDirectory(Path.Combine(DoomEternal.SavePath, dstUidBox.Text));
-            //}
             if (res) {
                 DialogResult = DialogResult.OK;
             }

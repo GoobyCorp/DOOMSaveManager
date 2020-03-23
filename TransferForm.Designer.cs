@@ -30,12 +30,12 @@
             this.dstUidBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.srcUidComboBox = new System.Windows.Forms.ComboBox();
+            this.srcComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // transferOkBtn
             // 
-            this.transferOkBtn.Location = new System.Drawing.Point(296, 66);
+            this.transferOkBtn.Location = new System.Drawing.Point(293, 71);
             this.transferOkBtn.Name = "transferOkBtn";
             this.transferOkBtn.Size = new System.Drawing.Size(75, 23);
             this.transferOkBtn.TabIndex = 0;
@@ -45,7 +45,7 @@
             // 
             // transferCancelBtn
             // 
-            this.transferCancelBtn.Location = new System.Drawing.Point(12, 66);
+            this.transferCancelBtn.Location = new System.Drawing.Point(12, 71);
             this.transferCancelBtn.Name = "transferCancelBtn";
             this.transferCancelBtn.Size = new System.Drawing.Size(75, 23);
             this.transferCancelBtn.TabIndex = 1;
@@ -55,45 +55,45 @@
             // 
             // dstUidBox
             // 
-            this.dstUidBox.Location = new System.Drawing.Point(114, 40);
+            this.dstUidBox.Location = new System.Drawing.Point(114, 39);
             this.dstUidBox.Name = "dstUidBox";
-            this.dstUidBox.Size = new System.Drawing.Size(257, 20);
+            this.dstUidBox.Size = new System.Drawing.Size(254, 20);
             this.dstUidBox.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 16);
+            this.label1.Location = new System.Drawing.Point(64, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Source UUID:";
+            this.label1.Text = "Source:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 43);
+            this.label2.Location = new System.Drawing.Point(15, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(93, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Destination UUID:";
             // 
-            // srcUidComboBox
+            // srcComboBox
             // 
-            this.srcUidComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.srcUidComboBox.FormattingEnabled = true;
-            this.srcUidComboBox.Location = new System.Drawing.Point(114, 13);
-            this.srcUidComboBox.Name = "srcUidComboBox";
-            this.srcUidComboBox.Size = new System.Drawing.Size(257, 21);
-            this.srcUidComboBox.TabIndex = 6;
+            this.srcComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.srcComboBox.FormattingEnabled = true;
+            this.srcComboBox.Location = new System.Drawing.Point(114, 12);
+            this.srcComboBox.Name = "srcComboBox";
+            this.srcComboBox.Size = new System.Drawing.Size(254, 21);
+            this.srcComboBox.TabIndex = 6;
             // 
             // TransferForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 97);
+            this.ClientSize = new System.Drawing.Size(380, 106);
             this.ControlBox = false;
-            this.Controls.Add(this.srcUidComboBox);
+            this.Controls.Add(this.srcComboBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dstUidBox);
@@ -117,6 +117,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox dstUidBox;
-        public System.Windows.Forms.ComboBox srcUidComboBox;
+        public System.Windows.Forms.ComboBox srcComboBox;
+        private System.Windows.Forms.ComboBox srcModeComboBox;
     }
 }
