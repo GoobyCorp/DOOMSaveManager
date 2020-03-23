@@ -84,11 +84,11 @@
       <DependentUpon>TransferForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
-    <Compile Include="SelectUUIDForm.cs">
+    <Compile Include="SelectForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectUUIDForm.Designer.cs">
-      <DependentUpon>SelectUUIDForm.cs</DependentUpon>
+    <Compile Include="SelectForm.Designer.cs">
+      <DependentUpon>SelectForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -106,8 +106,8 @@
     <EmbeddedResource Include="TransferForm.resx">
       <DependentUpon>TransferForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectUUIDForm.resx">
-      <DependentUpon>SelectUUIDForm.cs</DependentUpon>
+    <EmbeddedResource Include="SelectForm.resx">
+      <DependentUpon>SelectForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

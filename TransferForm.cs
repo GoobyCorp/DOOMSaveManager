@@ -13,9 +13,7 @@ namespace DOOMSaveManager
 
         private void TransferForm_Load(object sender, EventArgs e) {
             srcComboBox.Items.AddRange(DoomEternal.GetUserIDs());
-            if (srcComboBox.Items.Count == 0) {
-                DialogResult = DialogResult.Abort;
-            } else if(srcComboBox.Items.Count > 0) {
+            if(srcComboBox.Items.Count > 0) {
                 srcComboBox.SelectedIndex = 0;
             }
             if (Directory.Exists(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"))) {

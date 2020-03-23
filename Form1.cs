@@ -33,12 +33,17 @@ namespace DOOMSaveManager
                         ofd.FilterIndex = 0;
                         ofd.FileName = "backup.Zip";
                         if (ofd.ShowDialog() == DialogResult.OK) {
-                            var suf = new SelectUUIDForm("Select Import Destination UUID");
+                            var suf = new SelectForm("Select Import Destination");
                             if (suf.ShowDialog() == DialogResult.OK) {
-                                Directory.CreateDirectory("tmp");
-                                Utilities.Unarchive(ofd.FileName, "tmp");
-                                DoomEternal.BulkEncrypt("tmp", suf.selectUidComboBox.Text);
-                                Directory.Delete("tmp", true);
+                                if(suf.selectComboBox.Text == "savegame.unencrypted") {
+                                    // Directory.CreateDirectory(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"));
+                                    Utilities.Unarchive(ofd.FileName, Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"));
+                                } else {
+                                    Directory.CreateDirectory("tmp");
+                                    Utilities.Unarchive(ofd.FileName, "tmp");
+                                    DoomEternal.BulkEncrypt("tmp", suf.selectComboBox.Text);
+                                    Directory.Delete("tmp", true);
+                                }
                                 MessageBox.Show("Import success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
@@ -46,7 +51,7 @@ namespace DOOMSaveManager
                     break;
                 }
                 case "Export Backup": {
-                    var suf = new SelectUUIDForm("Select Export Source UUID");
+                    var suf = new SelectForm("Select Export Source");
                     if(suf.ShowDialog() == DialogResult.OK) {
                         using (var sfd = new SaveFileDialog()) {
                             sfd.Title = "Save Backup";
@@ -55,10 +60,14 @@ namespace DOOMSaveManager
                             sfd.FilterIndex = 0;
                             sfd.FileName = "backup.zip";
                             if (sfd.ShowDialog() == DialogResult.OK) {
-                                Directory.CreateDirectory("tmp");
-                                DoomEternal.BulkDecrypt(suf.selectUidComboBox.Text, "tmp");
-                                Utilities.Archive(sfd.FileName, "tmp");
-                                Directory.Delete("tmp", true);
+                                if (suf.selectComboBox.Text == "savegame.unencrypted") {
+                                    Utilities.Archive(sfd.FileName, Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"));
+                                } else {
+                                    Directory.CreateDirectory("tmp");
+                                    DoomEternal.BulkDecrypt(suf.selectComboBox.Text, "tmp");
+                                    Utilities.Archive(sfd.FileName, "tmp");
+                                    Directory.Delete("tmp", true);
+                                }
                                 MessageBox.Show("Export success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
