@@ -77,11 +77,12 @@ namespace DOOMSaveManager
                 case "Transfer": {
                     var tf = new TransferForm();
                     if(tf.ShowDialog() == DialogResult.OK) {
-                        if(tf.srcComboBox.Text == "savegame.unencrypted") {
-                            DoomEternal.BulkEncrypt(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"), tf.dstUidBox.Text);
-                        } else {
-                            DoomEternal.BulkTransfer(tf.srcComboBox.Text, tf.dstUidBox.Text);
-                        }
+                        if (tf.srcComboBox.Text == "savegame.unencrypted")
+                            DoomEternal.BulkEncrypt(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"), tf.dstComboBox.Text);
+                        else if (tf.dstComboBox.Text == "savegame.unencrypted")
+                            DoomEternal.BulkDecrypt(tf.srcComboBox.Text, Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"));
+                        else
+                            DoomEternal.BulkTransfer(tf.srcComboBox.Text, tf.dstComboBox.Text);
                         MessageBox.Show("Transfer success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     break;

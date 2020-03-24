@@ -27,10 +27,10 @@
         private void InitializeComponent() {
             this.transferOkBtn = new System.Windows.Forms.Button();
             this.transferCancelBtn = new System.Windows.Forms.Button();
-            this.dstUidBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.srcComboBox = new System.Windows.Forms.ComboBox();
+            this.dstComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // transferOkBtn
@@ -53,13 +53,6 @@
             this.transferCancelBtn.UseVisualStyleBackColor = true;
             this.transferCancelBtn.Click += new System.EventHandler(this.transferCancelBtn_Click);
             // 
-            // dstUidBox
-            // 
-            this.dstUidBox.Location = new System.Drawing.Point(114, 39);
-            this.dstUidBox.Name = "dstUidBox";
-            this.dstUidBox.Size = new System.Drawing.Size(254, 20);
-            this.dstUidBox.TabIndex = 3;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -72,11 +65,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 42);
+            this.label2.Location = new System.Drawing.Point(45, 42);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Destination UUID:";
+            this.label2.Text = "Destination:";
             // 
             // srcComboBox
             // 
@@ -86,6 +79,17 @@
             this.srcComboBox.Name = "srcComboBox";
             this.srcComboBox.Size = new System.Drawing.Size(254, 21);
             this.srcComboBox.TabIndex = 6;
+            this.srcComboBox.SelectedValueChanged += new System.EventHandler(this.srcComboBox_SelectedValueChanged);
+            // 
+            // dstComboBox
+            // 
+            this.dstComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dstComboBox.FormattingEnabled = true;
+            this.dstComboBox.Location = new System.Drawing.Point(114, 39);
+            this.dstComboBox.Name = "dstComboBox";
+            this.dstComboBox.Size = new System.Drawing.Size(254, 21);
+            this.dstComboBox.TabIndex = 7;
+            this.dstComboBox.SelectedValueChanged += new System.EventHandler(this.dstComboBox_SelectedValueChanged);
             // 
             // TransferForm
             // 
@@ -93,10 +97,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(380, 106);
             this.ControlBox = false;
+            this.Controls.Add(this.dstComboBox);
             this.Controls.Add(this.srcComboBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dstUidBox);
             this.Controls.Add(this.transferCancelBtn);
             this.Controls.Add(this.transferOkBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -116,8 +120,8 @@
         private System.Windows.Forms.Button transferCancelBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.TextBox dstUidBox;
         public System.Windows.Forms.ComboBox srcComboBox;
         private System.Windows.Forms.ComboBox srcModeComboBox;
+        public System.Windows.Forms.ComboBox dstComboBox;
     }
 }

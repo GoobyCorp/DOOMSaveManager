@@ -71,7 +71,7 @@
             this.Controls.Add(this.actionComboBox);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MinimizeBox = false;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "DOOM Save Manager";
             this.Load += new System.EventHandler(this.Form1_Load);
