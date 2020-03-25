@@ -7,6 +7,8 @@ namespace DOOMSaveManager
 {
     public partial class SelectForm : Form
     {
+        public DoomEternalSave SelectedSave;
+
         public SelectForm(string title = "") {
             InitializeComponent();
             if(!String.IsNullOrEmpty(title))
@@ -14,24 +16,26 @@ namespace DOOMSaveManager
         }
 
         private void SelectForm_Load(object sender, EventArgs e) {
-            selectComboBox.Items.AddRange(DoomEternal.GetUserIDs());
+            selectComboBox.Items.AddRange(DoomEternal.Saves.GetIdentifiers());
             if (selectComboBox.Items.Count > 0) {
                 selectComboBox.SelectedIndex = 0;
             }
-            if (Directory.Exists(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"))) {
-                selectComboBox.Items.Add("savegame.unencrypted");
+            if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"))) {
+                selectComboBox.Items.Remove("savegame.unencrypted");
             }
         }
 
         private void selectOkBtn_Click(object sender, EventArgs e) {
-            bool res = true;
             if(String.IsNullOrEmpty(selectComboBox.Text)) {
-                res = false;
                 MessageBox.Show("No item has been selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            if(res) {
-                DialogResult = DialogResult.OK;
+
+            if(!DoomEternal.Saves.SaveExists(selectComboBox.Text, out SelectedSave)) {
+                MessageBox.Show("That item doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            DialogResult = DialogResult.OK;
         }
 
         private void selectCancelBtn_Click(object sender, EventArgs e) {

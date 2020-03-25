@@ -7,20 +7,25 @@ namespace DOOMSaveManager
 {
     public partial class TransferForm : Form
     {
-        private string[] uids = { };
+        public DoomEternalSave SrcSave;
+        public DoomEternalSave DstSave;
+
+        private string[] uids;
 
         public TransferForm() {
             InitializeComponent();
         }
 
         private void TransferForm_Load(object sender, EventArgs e) {
-            uids = DoomEternal.GetUserIDs();
+            DoomEternal.EnumerateSaves();
+            uids = DoomEternal.Saves.GetIdentifiers();
 
-            if (Directory.Exists(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted")))
-                srcComboBox.Items.Add("savegame.unencrypted");
+            if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted")))
+                srcComboBox.Items.Remove("savegame.unencrypted");
             srcComboBox.Items.AddRange(uids);
+
             dstComboBox.Items.AddRange(uids);
-            dstComboBox.Items.Add("savegame.unencrypted");
+            //dstComboBox.Items.Add("savegame.unencrypted");
 
             if (srcComboBox.Items.Count > 0)
                 srcComboBox.SelectedIndex = 0;
@@ -29,23 +34,45 @@ namespace DOOMSaveManager
         }
 
         private void transferOkBtn_Click(object sender, EventArgs e) {
-            bool res = true;
-            if (srcComboBox.Text != "savegame.unencrypted" && !Utilities.CheckUUID(srcComboBox.Text)) {
-                res = false;
-                MessageBox.Show("Invalid source UUID!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (!DoomEternal.Saves.SaveExists(srcComboBox.Text, out SrcSave)) {
+                MessageBox.Show("Invalid source!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            if (dstComboBox.Text != "savegame.unencrypted" && Utilities.CheckUUID(dstComboBox.Text)) {
-                res = false;
-                MessageBox.Show("Invalid destination UUID!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (!DoomEternal.Saves.SaveExists(dstComboBox.Text, out DstSave)) {
+                MessageBox.Show("Invalid destination!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            if (!Directory.Exists(Path.Combine(DoomEternal.SavePath, srcComboBox.Text))) {
-                res = false;
-                MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            if(SrcSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
+                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, SrcSave.Identifier))) {
+                    MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            } else if(SrcSave.Platform == DoomEternalSavePlatform.Steam) {
+                if (!Directory.Exists(Utilities.GetSavePathForId64(ulong.Parse(SrcSave.Identifier)))) {
+                    MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
-            if (!Directory.Exists(Path.Combine(DoomEternal.SavePath, dstComboBox.Text)))
-                Directory.CreateDirectory(Path.Combine(DoomEternal.SavePath, dstComboBox.Text));
-            if (res)
-                DialogResult = DialogResult.OK;
+
+            if (DstSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
+                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, DstSave.Identifier))) {
+                    MessageBox.Show("Destination directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            } else if (DstSave.Platform == DoomEternalSavePlatform.Steam) {
+                if (!Directory.Exists(Utilities.GetSavePathForId64(ulong.Parse(DstSave.Identifier)))) {
+                    MessageBox.Show("Destination directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            //if(dstComboBox.Text == "savegame.unencrypted") {
+            //    if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, dstComboBox.Text)))
+            //        Directory.CreateDirectory(Path.Combine(DoomEternal.BnetSavePath, dstComboBox.Text));
+            //}
+
+            DialogResult = DialogResult.OK;
         }
 
         private void transferCancelBtn_Click(object sender, EventArgs e) {
@@ -55,7 +82,7 @@ namespace DOOMSaveManager
         private void srcComboBox_SelectedValueChanged(object sender, EventArgs e) {
             dstComboBox.Items.Clear();
             dstComboBox.Items.AddRange(uids);
-            dstComboBox.Items.Add("savegame.unencrypted");
+            // dstComboBox.Items.Add("savegame.unencrypted");
             dstComboBox.Items.Remove(((ComboBox)sender).Text);
             if (dstComboBox.Items.Count > 0)
                 dstComboBox.SelectedIndex = 0;

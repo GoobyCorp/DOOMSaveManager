@@ -121,7 +121,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.ComboBox srcComboBox;
-        private System.Windows.Forms.ComboBox srcModeComboBox;
         public System.Windows.Forms.ComboBox dstComboBox;
     }
 }
