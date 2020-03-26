@@ -21,18 +21,22 @@ namespace DOOMSaveManager
 
         public static void EnumerateSaves() {
             Saves = new DoomEternalSaveCollection();
-            foreach(var single in Directory.GetDirectories(BnetSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
-                if(Utilities.CheckUUID(Path.GetFileNameWithoutExtension(single)))
-                    Saves.Add(new DoomEternalSave(Path.GetFileNameWithoutExtension(single), BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
-            }
-            foreach(var steamId3 in Directory.GetDirectories(SteamSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
-                Console.WriteLine(Path.GetFileNameWithoutExtension(steamId3));
-                foreach(var single in Directory.GetDirectories(steamId3, "*.*", SearchOption.TopDirectoryOnly)) {
-                    if (Path.GetFileNameWithoutExtension(single) == SteamGameID.ToString())
-                        Saves.Add(new DoomEternalSave((int.Parse(Path.GetFileNameWithoutExtension(steamId3)) + 76561197960265728).ToString(), SteamSavePath, DoomEternalSavePlatform.Steam));
+            if (Directory.Exists(BnetSavePath)) {
+                Saves.Add(new DoomEternalSave("savegame.unencrypted", BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
+                foreach (var single in Directory.GetDirectories(BnetSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
+                    if (Utilities.CheckUUID(Path.GetFileNameWithoutExtension(single)))
+                        Saves.Add(new DoomEternalSave(Path.GetFileNameWithoutExtension(single), BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
                 }
             }
-            Saves.Add(new DoomEternalSave("savegame.unencrypted", BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
+            if (Directory.Exists(SteamSavePath)) {
+                foreach (var steamId3 in Directory.GetDirectories(SteamSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
+                    Console.WriteLine(Path.GetFileNameWithoutExtension(steamId3));
+                    foreach (var single in Directory.GetDirectories(steamId3, "*.*", SearchOption.TopDirectoryOnly)) {
+                        if (Path.GetFileNameWithoutExtension(single) == SteamGameID.ToString())
+                            Saves.Add(new DoomEternalSave((int.Parse(Path.GetFileNameWithoutExtension(steamId3)) + 76561197960265728).ToString(), SteamSavePath, DoomEternalSavePlatform.Steam));
+                    }
+                }
+            }
         }
 
         #region Bethesda.net

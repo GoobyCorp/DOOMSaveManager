@@ -15,7 +15,7 @@ namespace DOOMSaveManager
             DoomEternal.EnumerateSaves();
             bool res = false;
             // add tabs back if the games exist
-            if(Directory.Exists(DoomEternal.BnetSavePath)) {
+            if(Directory.Exists(DoomEternal.BnetSavePath) || Directory.Exists(DoomEternal.SteamSavePath)) {
                 res = true;
             }
             if(!res) {
