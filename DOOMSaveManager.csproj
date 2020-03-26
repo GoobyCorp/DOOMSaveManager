@@ -139,4 +139,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+"$(ProjectDir)7zip\7za.exe" a "$(TargetDir)Release.zip" "$(TargetDir)BouncyCastle.Crypto.dll" "$(TargetDir)ICSharpCode.SharpZipLib.dll" "$(TargetPath)"
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
