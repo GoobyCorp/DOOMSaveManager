@@ -22,6 +22,7 @@ namespace DOOMSaveManager
         public static void EnumerateSaves() {
             Saves = new DoomEternalSaveCollection();
             if (Directory.Exists(BnetSavePath)) {
+                Saves.Add(new DoomEternalSave("savegame.unencrypted", BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
                 foreach (var single in Directory.GetDirectories(BnetSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
                     if (Utilities.CheckUUID(Path.GetFileNameWithoutExtension(single)))
                         Saves.Add(new DoomEternalSave(Path.GetFileNameWithoutExtension(single), BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
