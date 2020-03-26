@@ -13,12 +13,8 @@ namespace DOOMSaveManager
 
         private void Form1_Load(object sender, EventArgs e) {
             DoomEternal.EnumerateSaves();
-            bool res = false;
-            // add tabs back if the games exist
-            if(Directory.Exists(DoomEternal.BnetSavePath) || Directory.Exists(DoomEternal.SteamSavePath)) {
-                res = true;
-            }
-            if(!res) {
+
+            if(!Directory.Exists(DoomEternal.BnetSavePath) && !Directory.Exists(DoomEternal.BnetSavePathUnencrypted) && !Directory.Exists(DoomEternal.SteamSavePath)) {
                 MessageBox.Show("DOOM Eternal wasn't found on your computer!\r\nThe program will now exit...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
@@ -37,8 +33,7 @@ namespace DOOMSaveManager
                             var suf = new SelectForm("Select Import Destination");
                             if (suf.ShowDialog() == DialogResult.OK) {
                                 if (suf.SelectedSave.Identifier == "savegame.unencrypted") {
-                                    // Directory.CreateDirectory(Path.Combine(DoomEternal.SavePath, "savegame.unencrypted"));
-                                    Utilities.Unarchive(ofd.FileName, Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"));
+                                    Utilities.Unarchive(ofd.FileName, DoomEternal.BnetSavePathUnencrypted);
                                 } else {
                                     if (suf.SelectedSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
                                         Directory.CreateDirectory("tmp");
@@ -57,7 +52,7 @@ namespace DOOMSaveManager
                         }
                     }
                     break;
-                }
+                    }
                 case "Export Backup": {
                     var suf = new SelectForm("Select Export Source");
                     if(suf.ShowDialog() == DialogResult.OK) {
@@ -69,7 +64,7 @@ namespace DOOMSaveManager
                             sfd.FileName = "backup.zip";
                             if (sfd.ShowDialog() == DialogResult.OK) {
                                 if (suf.SelectedSave.Identifier == "savegame.unencrypted") {
-                                    Utilities.Archive(sfd.FileName, Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"));
+                                    Utilities.Archive(sfd.FileName, DoomEternal.BnetSavePathUnencrypted);
                                 } else {
                                     if(suf.SelectedSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
                                         Directory.CreateDirectory("tmp");
@@ -88,21 +83,21 @@ namespace DOOMSaveManager
                         }
                     }
                     break;
-                }
+                    }
                 case "Transfer": {
                     var tf = new TransferForm();
                     if(tf.ShowDialog() == DialogResult.OK) {
                         // messy :'(
                         if (tf.SrcSave.Identifier == "savegame.unencrypted") {
                             if (tf.DstSave.Platform == DoomEternalSavePlatform.BethesdaNet)
-                                DoomEternal.BnetBulkEncrypt(Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"), tf.DstSave.Identifier);
+                                DoomEternal.BnetBulkEncrypt(DoomEternal.BnetSavePathUnencrypted, tf.DstSave.Identifier);
                             else if (tf.DstSave.Platform == DoomEternalSavePlatform.Steam)
-                                DoomEternal.SteamBulkEncrypt(Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"), tf.DstSave.Identifier);
+                                DoomEternal.SteamBulkEncrypt(DoomEternal.BnetSavePathUnencrypted, tf.DstSave.Identifier);
                         } else if (tf.DstSave.Identifier == "savegame.unencrypted") {
                             if (tf.SrcSave.Platform == DoomEternalSavePlatform.BethesdaNet)
-                                DoomEternal.BnetBulkDecrypt(tf.SrcSave.Identifier, Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"));
+                                DoomEternal.BnetBulkDecrypt(tf.SrcSave.Identifier, DoomEternal.BnetSavePathUnencrypted);
                             else if (tf.SrcSave.Platform == DoomEternalSavePlatform.Steam)
-                                DoomEternal.SteamBulkDecrypt(tf.SrcSave.Identifier, Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"));
+                                DoomEternal.SteamBulkDecrypt(tf.SrcSave.Identifier, DoomEternal.BnetSavePathUnencrypted);
                         } else {
                             if (tf.SrcSave.Platform == DoomEternalSavePlatform.BethesdaNet && tf.DstSave.Platform == DoomEternalSavePlatform.BethesdaNet)  // bnet to bnet
                                 DoomEternal.BnetBulkTransfer(tf.SrcSave.Identifier, tf.DstSave.Identifier);
@@ -116,7 +111,7 @@ namespace DOOMSaveManager
                         MessageBox.Show("Transfer success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     break;
-                }
+                    }
             }
         }
     }

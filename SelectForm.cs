@@ -20,9 +20,6 @@ namespace DOOMSaveManager
             if (selectComboBox.Items.Count > 0) {
                 selectComboBox.SelectedIndex = 0;
             }
-            if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted"))) {
-                selectComboBox.Items.Remove("savegame.unencrypted");
-            }
         }
 
         private void selectOkBtn_Click(object sender, EventArgs e) {

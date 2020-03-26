@@ -14,6 +14,7 @@ namespace DOOMSaveManager
         public const int SteamGameID = 782330;
         public static string SteamSavePath = Path.Combine(Utilities.GetSteamPath(), "userdata");
         public static string BnetSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games", "id Software", "DOOMEternal", "base", "savegame");
+        public static string BnetSavePathUnencrypted = Path.Combine(BnetSavePath, "savegame.unencrypted", Environment.UserName);
 
         public const string BackupPassword = "doometernalbackup";
 
@@ -22,7 +23,7 @@ namespace DOOMSaveManager
         public static void EnumerateSaves() {
             Saves = new DoomEternalSaveCollection();
             if (Directory.Exists(BnetSavePath)) {
-                Saves.Add(new DoomEternalSave("savegame.unencrypted", BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
+                Saves.Add(new DoomEternalSave("savegame.unencrypted", BnetSavePathUnencrypted, DoomEternalSavePlatform.BethesdaNet));
                 foreach (var single in Directory.GetDirectories(BnetSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
                     if (Utilities.CheckUUID(Path.GetFileNameWithoutExtension(single)))
                         Saves.Add(new DoomEternalSave(Path.GetFileNameWithoutExtension(single), BnetSavePath, DoomEternalSavePlatform.BethesdaNet));

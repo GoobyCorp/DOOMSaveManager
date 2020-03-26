@@ -20,12 +20,9 @@ namespace DOOMSaveManager
             DoomEternal.EnumerateSaves();
             uids = DoomEternal.Saves.GetIdentifiers();
 
-            if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, "savegame.unencrypted")))
-                srcComboBox.Items.Remove("savegame.unencrypted");
             srcComboBox.Items.AddRange(uids);
 
             dstComboBox.Items.AddRange(uids);
-            //dstComboBox.Items.Add("savegame.unencrypted");
 
             if (srcComboBox.Items.Count > 0)
                 srcComboBox.SelectedIndex = 0;
@@ -44,7 +41,7 @@ namespace DOOMSaveManager
             }
 
             if(SrcSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
-                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, SrcSave.Identifier))) {
+                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, SrcSave.Identifier)) && !Directory.Exists(Path.Combine(DoomEternal.BnetSavePathUnencrypted, SrcSave.Identifier))) {
                     MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -56,7 +53,7 @@ namespace DOOMSaveManager
             }
 
             if (DstSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
-                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, DstSave.Identifier))) {
+                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, DstSave.Identifier)) && !Directory.Exists(Path.Combine(DoomEternal.BnetSavePathUnencrypted, DstSave.Identifier))) {
                     MessageBox.Show("Destination directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -66,11 +63,6 @@ namespace DOOMSaveManager
                     return;
                 }
             }
-
-            //if(dstComboBox.Text == "savegame.unencrypted") {
-            //    if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, dstComboBox.Text)))
-            //        Directory.CreateDirectory(Path.Combine(DoomEternal.BnetSavePath, dstComboBox.Text));
-            //}
 
             DialogResult = DialogResult.OK;
         }
