@@ -6,27 +6,27 @@ using System.Threading.Tasks;
 
 namespace DOOMSaveManager
 {
-    public class DoomEternalSaveCollection
+    public class DoomEternalSavePathCollection
     {
-        private List<DoomEternalSave> Saves = new List<DoomEternalSave>();
+        private List<DoomEternalSavePath> Saves = new List<DoomEternalSavePath>();
 
-        public DoomEternalSaveCollection() {
+        public DoomEternalSavePathCollection() {
 
         }
 
-        public DoomEternalSaveCollection(IEnumerable<DoomEternalSave> saves) {
+        public DoomEternalSavePathCollection(IEnumerable<DoomEternalSavePath> saves) {
             Saves.AddRange(saves);
         }
 
-        public void Add(DoomEternalSave save) {
+        public void Add(DoomEternalSavePath save) {
             Saves.Add(save);
         }
 
-        public void AddRange(IEnumerable<DoomEternalSave> saves) {
+        public void AddRange(IEnumerable<DoomEternalSavePath> saves) {
             Saves.AddRange(saves);
         }
 
-        public bool SaveExists(string id, out DoomEternalSave save) {
+        public bool SaveExists(string id, out DoomEternalSavePath save) {
             foreach(var single in Saves) {
                 if (single.Identifier == id) {
                     save = single;
@@ -37,8 +37,8 @@ namespace DOOMSaveManager
             return false;
         }
 
-        public DoomEternalSave GetSave(string id) {
-            DoomEternalSave save;
+        public DoomEternalSavePath GetSave(string id) {
+            DoomEternalSavePath save;
             SaveExists(id, out save);
             return save;
         }

@@ -7,7 +7,7 @@ namespace DOOMSaveManager
 {
     public partial class SelectForm : Form
     {
-        public DoomEternalSave SelectedSave;
+        public DoomEternalSavePath SelectedSave;
 
         public SelectForm(string title = "") {
             InitializeComponent();

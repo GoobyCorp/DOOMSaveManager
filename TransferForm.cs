@@ -7,8 +7,8 @@ namespace DOOMSaveManager
 {
     public partial class TransferForm : Form
     {
-        public DoomEternalSave SrcSave;
-        public DoomEternalSave DstSave;
+        public DoomEternalSavePath SrcSave;
+        public DoomEternalSavePath DstSave;
 
         private string[] uids;
 

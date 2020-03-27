@@ -18,15 +18,15 @@ namespace DOOMSaveManager
 
         public const string BackupPassword = "doometernalbackup";
 
-        public static DoomEternalSaveCollection Saves;
+        public static DoomEternalSavePathCollection Saves;
 
         public static void EnumerateSaves() {
-            Saves = new DoomEternalSaveCollection();
+            Saves = new DoomEternalSavePathCollection();
             if (Directory.Exists(BnetSavePath)) {
-                Saves.Add(new DoomEternalSave("savegame.unencrypted", BnetSavePathUnencrypted, DoomEternalSavePlatform.BethesdaNet));
+                Saves.Add(new DoomEternalSavePath("savegame.unencrypted", BnetSavePathUnencrypted, DoomEternalSavePlatform.BethesdaNet));
                 foreach (var single in Directory.GetDirectories(BnetSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
                     if (Utilities.CheckUUID(Path.GetFileNameWithoutExtension(single)))
-                        Saves.Add(new DoomEternalSave(Path.GetFileNameWithoutExtension(single), BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
+                        Saves.Add(new DoomEternalSavePath(Path.GetFileNameWithoutExtension(single), BnetSavePath, DoomEternalSavePlatform.BethesdaNet));
                 }
             }
             if (Directory.Exists(SteamSavePath)) {
@@ -34,7 +34,7 @@ namespace DOOMSaveManager
                     Console.WriteLine(Path.GetFileNameWithoutExtension(steamId3));
                     foreach (var single in Directory.GetDirectories(steamId3, "*.*", SearchOption.TopDirectoryOnly)) {
                         if (Path.GetFileNameWithoutExtension(single) == SteamGameID.ToString())
-                            Saves.Add(new DoomEternalSave((int.Parse(Path.GetFileNameWithoutExtension(steamId3)) + 76561197960265728).ToString(), SteamSavePath, DoomEternalSavePlatform.Steam));
+                            Saves.Add(new DoomEternalSavePath(Utilities.Id3ToId64(Path.GetFileNameWithoutExtension(steamId3)), SteamSavePath, DoomEternalSavePlatform.Steam));
                     }
                 }
             }

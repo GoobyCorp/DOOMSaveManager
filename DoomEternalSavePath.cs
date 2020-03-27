@@ -12,16 +12,19 @@ namespace DOOMSaveManager
         Steam,
     }
 
-    public class DoomEternalSave
+    public class DoomEternalSavePath
     {
         public string Identifier;
         public string BasePath;
         public DoomEternalSavePlatform Platform;
+        public bool Encrypted = true;
 
-        public DoomEternalSave(string id, string path, DoomEternalSavePlatform platform) {
+        public DoomEternalSavePath(string id, string path, DoomEternalSavePlatform platform) {
             Identifier = id;
             BasePath = path;
             Platform = platform;
+            if (id == "savegame.unencrypted")
+                Encrypted = false;
         }
     }
 }
