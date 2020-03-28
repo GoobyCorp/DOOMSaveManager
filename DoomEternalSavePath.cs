@@ -111,19 +111,12 @@ namespace DOOMSaveManager
 
             // read from source
             string srcAAD;
-            switch(Platform) {
-                case DoomEternalSavePlatform.BethesdaNet: {
-                    srcAAD = "PAINELEMENTAL";
-                    break;
-                }
-                case DoomEternalSavePlatform.Steam: {
-                    srcAAD = "MANCUBUS";
-                    break;
-                }
-                default: {
-                    throw new Exception("Unsupported source platform specified!");
-                }
-            }
+            if(Platform == DoomEternalSavePlatform.BethesdaNet)
+                srcAAD = "PAINELEMENTAL";
+            else if (Platform == DoomEternalSavePlatform.Steam)
+                srcAAD = "MANCUBUS";
+            else
+                throw new Exception("Unsupported source platform specified!");
             foreach (var single in GetAbsolutePaths()) {
                 if (Encrypted)
                     srcFiles.Add(new Tuple<string, byte[]>(single.Replace(FullPath, "").Substring(1), Crypto.DecryptAndVerify($"{Identifier}{srcAAD}{Path.GetFileName(single)}", File.ReadAllBytes(single))));
@@ -133,19 +126,12 @@ namespace DOOMSaveManager
 
             // copy to destination
             string dstAAD;
-            switch (dst.Platform) {
-                case DoomEternalSavePlatform.BethesdaNet: {
-                    dstAAD = "PAINELEMENTAL";
-                    break;
-                }
-                case DoomEternalSavePlatform.Steam: {
-                    dstAAD = "MANCUBUS";
-                    break;
-                }
-                default: {
-                    throw new Exception("Unsupported destination platform specified!");
-                }
-            }
+            if (dst.Platform == DoomEternalSavePlatform.BethesdaNet)
+                dstAAD = "PAINELEMENTAL";
+            else if (dst.Platform == DoomEternalSavePlatform.Steam)
+                dstAAD = "MANCUBUS";
+            else
+                throw new Exception("Unsupported destination platform specified!");
             foreach (var single in srcFiles) {
                 Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(dst.FullPath, single.Item1)));
                 if (dst.Encrypted)
