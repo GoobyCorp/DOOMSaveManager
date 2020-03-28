@@ -16,8 +16,6 @@ namespace DOOMSaveManager
         public static string BnetSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games", "id Software", "DOOMEternal", "base", "savegame");
         public static string BnetSavePathUnencrypted = Path.Combine(BnetSavePath, "savegame.unencrypted", Environment.UserName);
 
-        public const string BackupPassword = "doometernalbackup";
-
         public static DoomEternalSavePathCollection Saves;
 
         public static void EnumerateSaves() {
