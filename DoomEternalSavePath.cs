@@ -31,7 +31,7 @@ namespace DOOMSaveManager
 
             if (Identifier == "savegame.unencrypted") {
                 Encrypted = false;
-                FullPath = Path.Combine(BnetSavePath, "savegame.unencrypted", Environment.UserName);
+                FullPath = Path.Combine(BnetSavePath + ".unencrypted", Environment.UserName);
             } else if (platform == DoomEternalSavePlatform.BethesdaNet)
                 FullPath = Path.Combine(BnetSavePath, Identifier);
             else if (platform == DoomEternalSavePlatform.Steam)

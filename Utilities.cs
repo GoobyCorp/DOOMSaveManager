@@ -13,6 +13,10 @@ namespace DOOMSaveManager
 {
     public static class Utilities
     {
+        public static uint rotl(uint n, int d) => (n << d) | (n >> (32 - d));
+
+        public static uint rotr(uint n, int d) => (n >> d) | (n << (32 - d));
+
         public static string GetSteamPath() {
             using (var reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Valve\Steam")) {
                 return (string)reg.GetValue("InstallPath", null);
