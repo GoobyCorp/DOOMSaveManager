@@ -42,6 +42,8 @@ namespace DOOMSaveManager
 
         public string[] GetRelativePaths() => GetAbsolutePaths().Select(single => single.Replace(FullPath, "").Substring(1)).ToArray();
 
+        public bool Exists() => Directory.Exists(FullPath);
+
         public void Zip(string filename) {
             using (var fsOut = File.Create(filename))
             using (var zs = new ZipOutputStream(fsOut)) {

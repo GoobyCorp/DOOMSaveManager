@@ -40,28 +40,14 @@ namespace DOOMSaveManager
                 return;
             }
 
-            if(SrcSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
-                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, SrcSave.Identifier)) && !Directory.Exists(Path.Combine(DoomEternal.BnetSavePathUnencrypted, SrcSave.Identifier))) {
-                    MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            } else if(SrcSave.Platform == DoomEternalSavePlatform.Steam) {
-                if (!Directory.Exists(Utilities.GetSavePathForId64(ulong.Parse(SrcSave.Identifier)))) {
-                    MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            if (!SrcSave.Exists()) {
+                MessageBox.Show("Source directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
-            if (DstSave.Platform == DoomEternalSavePlatform.BethesdaNet) {
-                if (!Directory.Exists(Path.Combine(DoomEternal.BnetSavePath, DstSave.Identifier)) && !Directory.Exists(Path.Combine(DoomEternal.BnetSavePathUnencrypted, DstSave.Identifier))) {
-                    MessageBox.Show("Destination directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            } else if (DstSave.Platform == DoomEternalSavePlatform.Steam) {
-                if (!Directory.Exists(Utilities.GetSavePathForId64(ulong.Parse(DstSave.Identifier)))) {
-                    MessageBox.Show("Destination directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            if (!DstSave.Exists()) {
+                MessageBox.Show("Destination directory doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             DialogResult = DialogResult.OK;

@@ -14,7 +14,7 @@ namespace DOOMSaveManager
         private void Form1_Load(object sender, EventArgs e) {
             DoomEternal.EnumerateSaves();
 
-            if(!Directory.Exists(DoomEternal.BnetSavePath) && !Directory.Exists(DoomEternal.BnetSavePathUnencrypted) && !Directory.Exists(DoomEternal.SteamSavePath)) {
+            if(!Directory.Exists(DoomEternal.BnetSavePath) && !Directory.Exists(DoomEternal.SteamSavePath) && !DoomEternal.Saves.GetSave("savegame.unencrypted").Exists()) {
                 MessageBox.Show("DOOM Eternal wasn't found on your computer!\r\nThe program will now exit...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
