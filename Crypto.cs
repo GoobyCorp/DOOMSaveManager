@@ -3,8 +3,8 @@ using System.Text;
 
 using System.Security.Cryptography;
 
-using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
+using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Parameters;
 
 namespace DOOMSaveManager
@@ -59,7 +59,7 @@ namespace DOOMSaveManager
 			return FarmHash_Hash32(pfData);
 		}
 
-		public static uint Mur(uint a, uint h) {
+		private static uint Mur(uint a, uint h) {
 			// Taken from https://github.com/google/farmhash/blob/master/src/farmhash.cc
 
 			a *= C1;
