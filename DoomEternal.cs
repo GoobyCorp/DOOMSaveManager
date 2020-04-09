@@ -14,7 +14,7 @@ namespace DOOMSaveManager
         public const string GameName = "Doom Eternal";
 
         public const int SteamGameID = 782330;
-        public static string SteamSavePath = Path.Combine(Utilities.GetSteamPath(), "userdata");
+        public static string SteamSavePath = "";
         public static string BnetSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games", "id Software", "DOOMEternal", "base", "savegame");
 
         public static DoomEternalSavePathCollection Saves;
@@ -30,11 +30,15 @@ namespace DOOMSaveManager
                 }
             }
 
-            if (Directory.Exists(SteamSavePath)) {
-                foreach (var steamId3 in Directory.GetDirectories(SteamSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
-                    foreach (var single in Directory.GetDirectories(steamId3, "*.*", SearchOption.TopDirectoryOnly)) {
-                        if (Path.GetFileNameWithoutExtension(single) == SteamGameID.ToString())
-                            Saves.Add(new DoomEternalSavePath(Utilities.Id3ToId64(Path.GetFileNameWithoutExtension(steamId3)), DoomEternalSavePlatform.Steam));
+            string steamPath = Utilities.GetSteamPath();
+            if (!string.IsNullOrEmpty(steamPath)) {
+                SteamSavePath = Path.Combine(steamPath, "userdata");
+                if (Directory.Exists(SteamSavePath)) {
+                    foreach (var steamId3 in Directory.GetDirectories(SteamSavePath, "*.*", SearchOption.TopDirectoryOnly)) {
+                        foreach (var single in Directory.GetDirectories(steamId3, "*.*", SearchOption.TopDirectoryOnly)) {
+                            if (Path.GetFileNameWithoutExtension(single) == SteamGameID.ToString())
+                                Saves.Add(new DoomEternalSavePath(Utilities.Id3ToId64(Path.GetFileNameWithoutExtension(steamId3)), DoomEternalSavePlatform.Steam));
+                        }
                     }
                 }
             }

@@ -32,7 +32,7 @@ namespace DOOMSaveManager
                         if (ofd.ShowDialog() == DialogResult.OK) {
                             var suf = new SelectForm("Select Import Destination");
                             if (suf.ShowDialog() == DialogResult.OK) {
-                                suf.SelectedSave.Extract(ofd.FileName);
+                                suf.SelectedSave.Decompress(ofd.FileName);
                                 MessageBox.Show("Import success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
@@ -49,7 +49,7 @@ namespace DOOMSaveManager
                             sfd.FilterIndex = 0;
                             sfd.FileName = "backup.zip";
                             if (sfd.ShowDialog() == DialogResult.OK) {
-                                suf.SelectedSave.Zip(sfd.FileName);
+                                suf.SelectedSave.Compress(sfd.FileName);
                                 MessageBox.Show("Export success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }

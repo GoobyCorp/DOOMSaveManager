@@ -44,7 +44,7 @@ namespace DOOMSaveManager
 
         public bool Exists() => Directory.Exists(FullPath);
 
-        public void Zip(string filename) {
+        public void Compress(string filename) {
             using (var fsOut = File.Create(filename))
             using (var zs = new ZipOutputStream(fsOut)) {
                 zs.SetLevel(3);
@@ -74,7 +74,7 @@ namespace DOOMSaveManager
             }
         }
 
-        public void Extract(string filename) {
+        public void Decompress(string filename) {
             using (Stream fsIn = File.OpenRead(filename))
             using (var zf = new ZipFile(fsIn)) {
 
