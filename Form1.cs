@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 
 using System.IO;
+using System.Text;
 
 namespace DOOMSaveManager
 {
