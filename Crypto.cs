@@ -12,18 +12,6 @@ using System.Security.Policy;
 
 namespace DOOMSaveManager
 {
-	public class Pair<T1, T2> {
-		public T1 First { get; set; }
-		public T2 Second { get; set; }
-
-		public Pair() { }
-
-		public Pair(T1 v1, T2 v2) {
-			First = v1;
-			Second = v2;
-		}
-	}
-
 	public static class Crypto
     {
 		private const uint C1 = 0xCC9E2D51;
@@ -43,13 +31,13 @@ namespace DOOMSaveManager
 			}
 		}
 
-		public static uint rotr32(uint n, int d) => (n >> d) | (n << (32 - d));
-		public static ulong rotr64(ulong n, int d) => (n >> d) | (n << (64 - d));
-		public static uint Rotate32(uint n, int d) => rotr32(n, d);
-		public static ulong Rotate64(ulong n, int d) => rotr64(n, d);
+		private static uint rotr32(uint n, int d) => (n >> d) | (n << (32 - d));
+		private static ulong rotr64(ulong n, int d) => (n >> d) | (n << (64 - d));
+		private static uint Rotate32(uint n, int d) => rotr32(n, d);
+		private static ulong Rotate64(ulong n, int d) => rotr64(n, d);
 
-		public static unsafe uint Fetch32(byte* p) => *(uint*)p;
-		public static unsafe ulong Fetch64(byte* p) => *(ulong*)p;
+		private static unsafe uint Fetch32(byte* p) => *(uint*)p;
+		private static unsafe ulong Fetch64(byte* p) => *(ulong*)p;
 
 		private static uint128_t Uint128(ulong lo, ulong hi) => new uint128_t(lo, hi);
 
@@ -421,75 +409,6 @@ namespace DOOMSaveManager
 			return GetBytes64(HashLen16(HashLen16(v.first, w.first, mul) + ShiftMix(y) * K0 + z, HashLen16(v.second, w.second, mul) + x, mul));
 		}
 
-		private static unsafe byte[] MurmurHash64B(byte* data, uint len, uint seed) {
-			// Taken from http://www.cs.cmu.edu/afs/cs/project/cmt-55/lti/Courses/731/homework/mosesdecoder/kenlm/util/murmur_hash.cc
-
-			const uint m = 0x5bd1e995;
-			const int r = 24;
-
-			uint h1 = seed ^ len;
-			uint h2 = 0;
-
-			while(len >= 8)
-			{
-				uint k1 = *data++;
-				k1 *= m;
-				k1 ^= k1 >> r;
-				k1 *= m;
-				h1 *= m;
-				h1 ^= k1;
-				len -= 4;
-
-				uint k2 = *data++;
-				k2 *= m;
-				k2 ^= k2 >> r;
-				k2 *= m;
-				h2 *= m;
-				h2 ^= k2;
-				len -= 4;
-			}
-
-			if(len >= 4)
-			{
-				uint k1 = *data++;
-				k1 *= m; k1 ^= k1 >> r; k1 *= m;
-				h1 *= m; h1 ^= k1;
-				len -= 4;
-			}
-
-			switch(len)
-			{
-				case 3: {
-					h2 ^= (uint)data[2] << 16;
-					break;
-				}
-				case 2: {
-					h2 ^= (uint)data[1] << 8;
-					break;
-				}
-				case 1: {
-					h2 ^= data[0];
-					h2 *= m;
-					break;
-				}
-			};
-
-			h1 ^= h2 >> 18;
-			h1 *= m;
-			h2 ^= h1 >> 22;
-			h2 *= m;
-			h1 ^= h2 >> 17;
-			h1 *= m;
-			h2 ^= h1 >> 19;
-			h2 *= m;
-
-			ulong h = h1;
-
-			h = (h << 32) | h2;
-
-			return GetBytes64(h);
-		}
-
 		private static unsafe uint128_t CityMurmur(byte* s, uint len, uint128_t seed) {
 			// Taken from https://github.com/google/farmhash/blob/master/src/farmhash.cc
 
@@ -597,7 +516,7 @@ namespace DOOMSaveManager
 			return Uint128(HashLen16(x + v.second, w.second) + y, HashLen16(x + w.second, y + v.second));
 		}
 
-		public static unsafe byte[] CityHash128(byte* s, uint len) {
+		private static unsafe byte[] CityHash128(byte* s, uint len) {
 			// Taken from https://github.com/google/farmhash/blob/master/src/farmhash.cc
 
 			uint128_t res;
@@ -612,6 +531,72 @@ namespace DOOMSaveManager
 			Buffer.BlockCopy(firstBytes, 0, resBytes, 0, firstBytes.Length);
 			Buffer.BlockCopy(secondBytes, 0, resBytes, firstBytes.Length, secondBytes.Length);
 			return resBytes;
+		}
+
+		private static unsafe byte[] MurmurHash64B(byte* data, uint len, uint seed) {
+			// Taken from http://www.cs.cmu.edu/afs/cs/project/cmt-55/lti/Courses/731/homework/mosesdecoder/kenlm/util/murmur_hash.cc
+
+			const uint m = 0x5bd1e995;
+			const int r = 24;
+
+			uint h1 = seed ^ len;
+			uint h2 = 0;
+
+			while (len >= 8) {
+				uint k1 = *data++;
+				k1 *= m;
+				k1 ^= k1 >> r;
+				k1 *= m;
+				h1 *= m;
+				h1 ^= k1;
+				len -= 4;
+
+				uint k2 = *data++;
+				k2 *= m;
+				k2 ^= k2 >> r;
+				k2 *= m;
+				h2 *= m;
+				h2 ^= k2;
+				len -= 4;
+			}
+
+			if (len >= 4) {
+				uint k1 = *data++;
+				k1 *= m; k1 ^= k1 >> r; k1 *= m;
+				h1 *= m; h1 ^= k1;
+				len -= 4;
+			}
+
+			switch (len) {
+				case 3: {
+					h2 ^= (uint)data[2] << 16;
+					break;
+				}
+				case 2: {
+					h2 ^= (uint)data[1] << 8;
+					break;
+				}
+				case 1: {
+					h2 ^= data[0];
+					h2 *= m;
+					break;
+				}
+			};
+
+			h1 ^= h2 >> 18;
+			h1 *= m;
+			h2 ^= h1 >> 22;
+			h2 *= m;
+			h1 ^= h2 >> 17;
+			h1 *= m;
+			h2 ^= h1 >> 19;
+			h2 *= m;
+
+			ulong h = h1;
+
+			h = (h << 32) | h2;
+
+			return GetBytes64(h);
 		}
 
 		public static unsafe byte[] MurmurHash64B(byte[] data, uint seed) {
