@@ -35,7 +35,6 @@ jobs:
           tag_name: ${{ github.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
           files: ./DOOMSaveManager.zip
-          name: DOOMSaveManager.zip
+          name: DOOMSaveManager ${{ github.ref }}
           body: |
             Automated Release by GitHub Action CI
-          asset_content_type: application/zip
