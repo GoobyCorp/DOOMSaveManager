@@ -1,8 +1,7 @@
 name: DOOMSaveManager Release
-on:
-  push:
-    tags:
-      - 'v*'
+
+on: [push, pull_request]
+
 jobs:
   create_release:
     name: Create GitHub Release
@@ -11,14 +10,10 @@ jobs:
       - name: Install 7Zip PowerShell Module
         shell: powershell
         run: Install-Module 7Zip4PowerShell -Force -Verbose
-      
-      - uses: actions/checkout@v2
 
-      - name: Setup Nuget.exe
-        uses: warrenbuckley/Setup-Nuget@v1
-
-      - name: Nuget Restore
-        run: nuget restore $Env:GITHUB_WORKSPACE\DOOMSaveManager\DOOMSaveManager.sln
+      - uses: actions/checkout@master
+      - uses: nuget/setup-nuget@v1
+      - run: nuget restore DOOMSaveManager.sln
       
       - name: Build Binary
         shell: cmd
