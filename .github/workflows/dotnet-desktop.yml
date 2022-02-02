@@ -1,9 +1,9 @@
 name: DOOMSaveManager Release
 
-on: [push, pull_request]
-
-env:
-  VERSION: 1.3.0.9
+on:
+  push:
+    tags:
+      - "*.*.*.*"
 
 jobs:
   create_release:
@@ -29,25 +29,13 @@ jobs:
         run: call .\BuildArtifact.cmd
 
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: upload-release-asset-any-cpu
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.VERSION }}
-          release_name: DOOMSaveManager ${{ env.VERSION }}
+          tag_name: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: ./DOOMSaveManager.zip
+          name: DOOMSaveManager.zip
           body: |
             Automated Release by GitHub Action CI
-          draft: false
-          prerelease: true
-
-      - name: Upload Release Asset (Any CPU)
-        id: upload-release-asset-any-cpu
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./DOOMSaveManager.zip
-          asset_name: DOOMSaveManager.zip
           asset_content_type: application/zip
