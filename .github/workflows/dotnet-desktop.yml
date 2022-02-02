@@ -38,13 +38,13 @@ jobs:
           draft: false
           prerelease: true
 
-      - name: Upload Release Asset (x86)
-        id: upload-release-asset-x86
+      - name: Upload Release Asset (Any CPU)
+        id: upload-release-asset-any-cpu
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./SampleX86.zip
-          asset_name: SampleX86.zip
+          asset_path: ./DOOMSaveManager.zip
+          asset_name: DOOMSaveManager.zip
           asset_content_type: application/zip
