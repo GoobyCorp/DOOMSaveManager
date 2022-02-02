@@ -2,6 +2,9 @@ name: DOOMSaveManager Release
 
 on: [push, pull_request]
 
+env:
+  VERSION: 1.3.0.9
+
 jobs:
   create_release:
     name: Create GitHub Release
@@ -19,7 +22,7 @@ jobs:
       
       - name: Build Binary
         shell: cmd
-        run: call .\Build.cmd
+        run: call .\BuildBinary.cmd
 
       - name: Build Artifact
         shell: cmd
@@ -31,8 +34,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ env.VERSION }}
+          release_name: DOOMSaveManager ${{ env.VERSION }}
           body: |
             Automated Release by GitHub Action CI
           draft: false
