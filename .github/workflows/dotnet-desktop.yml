@@ -12,7 +12,9 @@ jobs:
         run: Install-Module 7Zip4PowerShell -Force -Verbose
 
       - uses: actions/checkout@master
+
       - uses: nuget/setup-nuget@v1
+
       - run: nuget restore DOOMSaveManager.sln
       
       - name: Build Binary
