@@ -1,4 +1,4 @@
-name: Win32Sample GitHub Release
+name: DOOMSaveManager Release
 on:
   push:
     tags:

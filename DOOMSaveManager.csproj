@@ -144,8 +144,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release (
-"$(ProjectDir)7zip\7za.exe" a "$(TargetDir)Release.zip" "$(TargetDir)BouncyCastle.Crypto.dll" "$(TargetDir)ICSharpCode.SharpZipLib.dll" "$(TargetPath)"
-)</PostBuildEvent>
+    <PostBuildEvent>REM if $(ConfigurationName) == Release (
+REM "$(ProjectDir)7zip\7za.exe" a "$(TargetDir)Release.zip" REM "$(TargetDir)BouncyCastle.Crypto.dll" "$(TargetDir)ICSharpCode.SharpZipLib.dll" REM "$(TargetPath)"
+REM )</PostBuildEvent>
   </PropertyGroup>
 </Project>
