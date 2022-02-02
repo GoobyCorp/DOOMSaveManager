@@ -19,7 +19,7 @@ jobs:
       
       - name: Build Binary
         shell: cmd
-        run: call .\Build.cmd
+        run: call .\BuildBinary.cmd
 
       - name: Build Artifact
         shell: cmd
