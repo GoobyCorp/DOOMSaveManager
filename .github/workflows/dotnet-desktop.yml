@@ -1,0 +1,52 @@
+name: Win32Sample GitHub Release
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  create_release:
+    name: Create GitHub Release
+    runs-on: windows-2022
+    steps:
+      - name: Install 7Zip PowerShell Module
+        shell: powershell
+        run: Install-Module 7Zip4PowerShell -Force -Verbose
+        uses: actions/checkout@v2
+
+      — name: Setup Nuget.exe
+        uses: warrenbuckley/Setup-Nuget@v1
+
+      - name: Nuget Restore
+        run: nuget restore $Env:GITHUB_WORKSPACE\DOOMSaveManager\DOOMSaveManager.sln
+      
+      - name: Build Binary
+        shell: cmd
+        run: call .\Build.cmd
+
+      - name: Build Artifact
+        shell: cmd
+        run: call .\ArtifactBuild.cmd
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Automated Release by GitHub Action CI
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset (x86)
+        id: upload-release-asset-x86
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./SampleX86.zip
+          asset_name: SampleX86.zip
+          asset_content_type: application/zip

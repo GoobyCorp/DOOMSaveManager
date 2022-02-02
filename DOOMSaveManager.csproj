@@ -112,7 +112,9 @@
     <EmbeddedResource Include="SelectForm.resx">
       <DependentUpon>SelectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include=".github\workflows\dotnet.yml" />
+    <None Include=".github\workflows\dotnet-desktop.yml" />
+    <None Include="Build.cmd" />
+    <None Include="BuildArtifact.cmd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
